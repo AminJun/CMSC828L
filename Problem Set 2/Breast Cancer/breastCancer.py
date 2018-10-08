@@ -2,6 +2,7 @@
 
 import pandas as pd
 from sklearn.utils import shuffle
+import numpy as np
 
 np.random.seed(42)
 
