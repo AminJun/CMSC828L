@@ -3,27 +3,23 @@ import sys
 import keras
 import matplotlib.pyplot as plt
 import numpy as np
-from keras.layers import Conv2D, MaxPooling2D
-from keras.layers import Dense, Dropout, Flatten
+from keras.layers import Dense
 from keras.models import Sequential
+from sklearn.model_selection import train_test_split
 
-SHAPE = (28, 28, 1)
+SHAPE = (9,)
 LOUD = False
-BATCH_SIZE = 128
-EPOCHS = 12
+BATCH_SIZE = 1
+EPOCHS = 100
 pre_learn_weights = []
 post_learn_weights = []
 DATA_SET = 'Breast Cancer'
 
 
 def load_data():
-    x_trn = np.load(DATA_SET + '/trainImages.npy').astype(np.float32) / 255.0
-    y_trn = np.load(DATA_SET + '/trainLabels.npy').astype(np.float32)
-    x_tst = np.load(DATA_SET + '/testImages.npy').astype(np.float32) / 255.0
-    y_tst = np.load(DATA_SET + '/testLabels.npy').astype(np.float32)
-    x_trn = x_trn.reshape((len(x_trn),) + SHAPE)
-    x_tst = x_tst.reshape((len(x_tst),) + SHAPE)
-    return x_trn, y_trn, x_tst, y_tst
+    x = np.genfromtxt(DATA_SET + '/breastCancerData.csv', delimiter=',')
+    y = np.genfromtxt(DATA_SET + '/breastCancerLabels.csv', delimiter=',')
+    return train_test_split(x, y, test_size=0.15)
 
 
 def extract_weights():
@@ -41,8 +37,7 @@ def mrs_labeled():
     class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
     for cls_ex in class_examples:
         if len(cls_ex):
-            plt.imsave(DATA_SET + '_{}.png'.format(true_class[cls_ex[0]]),
-                       x_test[cls_ex[0]].squeeze())
+            print('Miss labeled of class {} is {}'.format(cls_ex, x_test[cls_ex[0]].squeeze()))
 
 
 def plot():
@@ -58,19 +53,14 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         LOUD = sys.argv[1].lower() == 'true'
 
-    x_train, y_train, x_test, y_test = load_data()
+    x_train, x_test, y_train, y_test = load_data()
 
     model = Sequential()
-    model.add(Conv2D(20, kernel_size=(3, 3), activation='relu', input_shape=SHAPE))
-    model.add(Conv2D(40, kernel_size=(3, 3), activation='relu'))
-    model.add(MaxPooling2D(pool_size=(2, 2)))
-    model.add(Dropout(0.25))
-    model.add(Flatten())
-    model.add(Dense(80, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(10, activation='softmax'))
-    model.compile(loss=keras.losses.categorical_crossentropy,
-                  optimizer=keras.optimizers.Adadelta(),
+    model.add(Dense(units=16, activation='relu', input_dim=SHAPE))
+    model.add(Dense(units=8, activation='relu'))
+    model.add(Dense(units=6, activation='relu'))
+    model.add(Dense(units=1, activation='sigmoid'))
+    model.compile(optimizer=keras.optimizers.rmsprop, loss=keras.losses.binary_crossentropy,
                   metrics=['accuracy'])
 
     if LOUD:
