@@ -7,7 +7,7 @@ from keras.layers import Dense
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 
-SHAPE = (9)
+SHAPE = 9
 LOUD = False
 BATCH_SIZE = 1
 EPOCHS = 100
