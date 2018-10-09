@@ -5,9 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import Dense
 from keras.models import Sequential
-from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-
+from sklearn.model_selection import train_test_split
 
 SHAPE = 9
 LOUD = False
@@ -33,12 +32,13 @@ def extract_weights():
 
 
 def mrs_labeled():
-    pred = [1 if y>0.5 else 0 for y in model.predict_classes(x_test)]
+    pred = [1 if y > 0.5 else 0 for y in model.predict_classes(x_test)]
     incorrects = np.nonzero(pred != y_test)
     class_examples = [(incorrects[0][y_test[incorrects] == cls]) for cls in range(10)]
     for cls_ex in class_examples:
         if len(cls_ex):
-            print('Miss labeled of class {} is {}'.format(cls_ex, x_test[cls_ex[0]].squeeze()))
+            print('Miss labeled of class {} is {}'.format(y_test[cls_ex[0]],
+                                                          x_test[cls_ex[0]].squeeze()))
 
 
 def plot():
