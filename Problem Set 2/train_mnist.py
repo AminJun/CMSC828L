@@ -9,7 +9,7 @@ from keras.models import Sequential
 SHAPE = (28, 28, 1)
 LOUD = False
 BATCH_SIZE = 128
-EPOCHS = 2
+EPOCHS = 3
 
 
 def load_data():
