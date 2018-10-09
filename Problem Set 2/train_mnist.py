@@ -11,7 +11,7 @@ from tensorflow.contrib.slim.python.slim.data.tfexample_decoder import Image
 SHAPE = (28, 28, 1)
 LOUD = False
 BATCH_SIZE = 128
-EPOCHS = 12
+EPOCHS = 2
 
 
 def load_data():
