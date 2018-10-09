@@ -46,8 +46,8 @@ def mrs_labeled():
 def plot():
     mn = min(np.min(pre_learn_weights), np.min(post_learn_weights))
     mx = max(np.max(pre_learn_weights), np.max(post_learn_weights))
-    plt.hist(pre_learn_weights, label='Pre Training', range=(mn, mx), bins=1000)
-    plt.hist(post_learn_weights, label='Post Training', range=(mn, mx), bins=1000)
+    plt.hist(pre_learn_weights, label='Pre Training', range=(mn, mx), bins=1000, alpha='0.6')
+    plt.hist(post_learn_weights, label='Post Training', range=(mn, mx), bins=1000, alpha='0.6')
     plt.legend()
     plt.savefig('MNIST_plt.png')
 
