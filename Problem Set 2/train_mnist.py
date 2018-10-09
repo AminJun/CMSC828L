@@ -1,6 +1,7 @@
 import sys
 
 import keras
+import matplotlib.pyplot as plt
 import numpy as np
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Flatten
@@ -9,7 +10,7 @@ from keras.models import Sequential
 SHAPE = (28, 28, 1)
 LOUD = False
 BATCH_SIZE = 128
-EPOCHS = 3
+EPOCHS = 12
 
 
 def load_data():
@@ -27,11 +28,9 @@ def mrs_labeled():
     true_class = y_test.argmax(axis=1)
     incorrects = np.nonzero(pred != true_class)
     class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
-    # examples = {}
-    # for cls in range(0, 10):
-    #     if len(incorrects[0][true_class[incorrects] == cls]):
-    import pdb
-    pdb.set_trace()
+    for cls_ex in class_examples:
+        if len(cls_ex):
+            plt.imsave("{}.png".format(true_class[cls_ex[0]]), x_test[cls_ex[0]].squeeze())
 
 
 def plot():
