@@ -25,7 +25,12 @@ def load_data():
 
 
 def mrs_labeled():
-    incorrects = np.nonzero(model.predict_classes(x_test).reshape((-1,)) != y_test)
+    pred = model.predict_classes(x_test)
+    true_class = y_test.argmax(axis=1)
+    incorrects = [np.nonzero(pred != true_class and true_class == cls) for cls in range(0,10)]
+    # examples = {}
+    # for cls in range(0, 10):
+    #     if len(incorrects[0][true_class[incorrects] == cls]):
     import pdb
     pdb.set_trace()
 
