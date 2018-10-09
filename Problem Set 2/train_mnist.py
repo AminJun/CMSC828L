@@ -28,7 +28,7 @@ def load_data():
 def extract_weights():
     arr = np.array([])
     for layer in model.layers:
-        arr = np.append(arr, layer.get_weights().flatten())
+        arr = np.append(arr, np.array(layer.get_weights()).flatten())
     return arr
 
 
