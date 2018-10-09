@@ -28,6 +28,8 @@ def load_data():
 def extract_weights():
     arr = np.array([])
     for layer in model.layers:
+        import pdb
+        pdb.set_trace()
         arr = np.append(arr, np.array(layer.get_weights()).flatten())
     return arr
 
