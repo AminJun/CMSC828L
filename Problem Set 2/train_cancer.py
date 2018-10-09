@@ -6,6 +6,8 @@ import numpy as np
 from keras.layers import Dense
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+
 
 SHAPE = 9
 LOUD = False
@@ -17,7 +19,7 @@ DATA_SET = 'Breast Cancer'
 
 
 def load_data():
-    x = np.genfromtxt(DATA_SET + '/breastCancerData.csv', delimiter=',')
+    x = preprocessing.scale(np.genfromtxt(DATA_SET + '/breastCancerData.csv', delimiter=','))
     y = np.genfromtxt(DATA_SET + '/breastCancerLabels.csv', delimiter=',')
     return train_test_split(x, y, test_size=0.15)
 
@@ -31,10 +33,9 @@ def extract_weights():
 
 
 def mrs_labeled():
-    pred = model.predict_classes(x_test)
-    true_class = y_test.argmax(axis=1)
-    incorrects = np.nonzero(pred != true_class)
-    class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
+    pred = [1 if y>0.5 else 0 for y in model.predict_classes(x_test)]
+    incorrects = np.nonzero(pred != y_test)
+    class_examples = [(incorrects[0][y_test[incorrects] == cls]) for cls in range(10)]
     for cls_ex in class_examples:
         if len(cls_ex):
             print('Miss labeled of class {} is {}'.format(cls_ex, x_test[cls_ex[0]].squeeze()))
