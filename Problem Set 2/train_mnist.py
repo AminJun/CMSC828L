@@ -26,6 +26,7 @@ def mrs_labeled():
     pred = model.predict_classes(x_test)
     true_class = y_test.argmax(axis=1)
     incorrects = np.nonzero(pred != true_class)
+    class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
     # examples = {}
     # for cls in range(0, 10):
     #     if len(incorrects[0][true_class[incorrects] == cls]):
