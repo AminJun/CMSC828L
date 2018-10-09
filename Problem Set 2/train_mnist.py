@@ -11,6 +11,10 @@ SHAPE = (28, 28, 1)
 LOUD = False
 BATCH_SIZE = 128
 EPOCHS = 12
+pre_learn_weights = []
+post_learn_weights = []
+pre_learn_biases = []
+post_learn_biases = []
 
 
 def load_data():
@@ -23,6 +27,18 @@ def load_data():
     return x_trn, y_trn, x_tst, y_tst
 
 
+def extract_weights():
+    arr = np.array([])
+    for layer in model.layers:
+        arr = np.append(arr, layer.get_weights())
+    return arr
+
+def extract_biases():
+    arr = np.array([])
+    for layer in model.layers:
+        arr = np.append(arr, layer.get_biases())
+    return arr
+
 def mrs_labeled():
     pred = model.predict_classes(x_test)
     true_class = y_test.argmax(axis=1)
@@ -34,7 +50,8 @@ def mrs_labeled():
 
 
 def plot():
-    pass
+    import pdb
+    pdb.set_trace()
 
 
 if __name__ == '__main__':
@@ -56,6 +73,10 @@ if __name__ == '__main__':
                   optimizer=keras.optimizers.Adadelta(),
                   metrics=['accuracy'])
 
+    if LOUD:
+        pre_learn_weights = extract_weights()
+        pre_learn_biases = extract_biases()
+
     model.fit(x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, verbose=1,
               validation_data=(x_test, y_test))
     loss, acc = model.evaluate(x_test, y_test, verbose=0)
@@ -63,4 +84,6 @@ if __name__ == '__main__':
     print('Loss: {loss} \t Accuracy: {acc}'.format(loss=loss, acc=acc))
     if LOUD:
         mrs_labeled()
+        post_learn_weights = extract_weights()
+        post_learn_biases = extract_biases()
         plot()
