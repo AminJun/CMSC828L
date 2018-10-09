@@ -7,7 +7,7 @@ from keras.layers import Dense
 from keras.models import Sequential
 from sklearn.model_selection import train_test_split
 
-SHAPE = (9,)
+SHAPE = (9)
 LOUD = False
 BATCH_SIZE = 1
 EPOCHS = 100
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     model.add(Dense(units=8, activation='relu'))
     model.add(Dense(units=6, activation='relu'))
     model.add(Dense(units=1, activation='sigmoid'))
-    model.compile(optimizer=keras.optimizers.rmsprop, loss=keras.losses.binary_crossentropy,
+    model.compile(optimizer=keras.optimizers.rmsprop(), loss=keras.losses.binary_crossentropy,
                   metrics=['accuracy'])
 
     if LOUD:
