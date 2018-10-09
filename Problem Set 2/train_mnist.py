@@ -13,13 +13,14 @@ BATCH_SIZE = 128
 EPOCHS = 12
 pre_learn_weights = []
 post_learn_weights = []
+DATA_SET = 'MNIST'
 
 
 def load_data():
-    x_trn = np.load('MNIST/trainImages.npy').astype(np.float32) / 255.0
-    y_trn = np.load('MNIST/trainLabels.npy').astype(np.float32)
-    x_tst = np.load('MNIST/testImages.npy').astype(np.float32) / 255.0
-    y_tst = np.load('MNIST/testLabels.npy').astype(np.float32)
+    x_trn = np.load(DATA_SET + '/trainImages.npy').astype(np.float32) / 255.0
+    y_trn = np.load(DATA_SET + '/trainLabels.npy').astype(np.float32)
+    x_tst = np.load(DATA_SET + '/testImages.npy').astype(np.float32) / 255.0
+    y_tst = np.load(DATA_SET + '/testLabels.npy').astype(np.float32)
     x_trn = x_trn.reshape((len(x_trn),) + SHAPE)
     x_tst = x_tst.reshape((len(x_tst),) + SHAPE)
     return x_trn, y_trn, x_tst, y_tst
@@ -40,7 +41,8 @@ def mrs_labeled():
     class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
     for cls_ex in class_examples:
         if len(cls_ex):
-            plt.imsave("MNIST_{}.png".format(true_class[cls_ex[0]]), x_test[cls_ex[0]].squeeze())
+            plt.imsave(DATA_SET + '_{}.png'.format(true_class[cls_ex[0]]),
+                       x_test[cls_ex[0]].squeeze())
 
 
 def plot():
@@ -49,7 +51,7 @@ def plot():
     plt.hist(pre_learn_weights, label='Pre Training', range=(mn, mx), bins=1000, alpha=0.6)
     plt.hist(post_learn_weights, label='Post Training', range=(mn, mx), bins=1000, alpha=0.6)
     plt.legend()
-    plt.savefig('MNIST_plt.png')
+    plt.savefig(DATA_SET + '_plt.png')
 
 
 if __name__ == '__main__':
