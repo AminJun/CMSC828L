@@ -18,8 +18,9 @@ DATA_SET = 'Breast Cancer'
 
 
 def load_data():
-    x = preprocessing.scale(np.genfromtxt(DATA_SET + '/breastCancerData.csv', delimiter=','))
-    y = np.genfromtxt(DATA_SET + '/breastCancerLabels.csv', delimiter=',')
+    init_x = np.genfromtxt(DATA_SET + '/breastCancerData.csv', delimiter=',').astype(np.float32)
+    x = preprocessing.scale(init_x)
+    y = np.genfromtxt(DATA_SET + '/breastCancerLabels.csv', delimiter=',').astype(np.float32)
     return train_test_split(x, y, test_size=0.15)
 
 
