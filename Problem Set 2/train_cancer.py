@@ -60,7 +60,7 @@ if __name__ == '__main__':
     model.add(Dense(units=8, activation='relu'))
     model.add(Dense(units=6, activation='relu'))
     model.add(Dense(units=1, activation='sigmoid'))
-    model.compile(optimizer=keras.optimizers.rmsprop(), loss=keras.losses.binary_crossentropy,
+    model.compile(optimizer=keras.optimizers.RMSprop(), loss=keras.losses.binary_crossentropy,
                   metrics=['accuracy'])
 
     if LOUD:
