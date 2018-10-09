@@ -5,8 +5,6 @@ import numpy as np
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Dense, Dropout, Flatten
 from keras.models import Sequential
-import matplotlib.pyplot as plt
-from tensorflow.contrib.slim.python.slim.data.tfexample_decoder import Image
 
 SHAPE = (28, 28, 1)
 LOUD = False
@@ -27,13 +25,12 @@ def load_data():
 def mrs_labeled():
     pred = model.predict_classes(x_test)
     true_class = y_test.argmax(axis=1)
-    incorrects = [np.nonzero(pred != true_class and true_class == cls) for cls in range(0,10)]
+    incorrects = np.nonzero(pred != true_class)
     # examples = {}
     # for cls in range(0, 10):
     #     if len(incorrects[0][true_class[incorrects] == cls]):
     import pdb
     pdb.set_trace()
-
 
 
 def plot():
@@ -62,7 +59,6 @@ if __name__ == '__main__':
     model.fit(x_train, y_train, batch_size=BATCH_SIZE, epochs=EPOCHS, verbose=1,
               validation_data=(x_test, y_test))
     loss, acc = model.evaluate(x_test, y_test, verbose=0)
-
 
     print('Loss: {loss} \t Accuracy: {acc}'.format(loss=loss, acc=acc))
     if LOUD:
