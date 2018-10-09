@@ -42,12 +42,16 @@ def mrs_labeled():
     class_examples = [(incorrects[0][true_class[incorrects] == cls]) for cls in range(10)]
     for cls_ex in class_examples:
         if len(cls_ex):
-            plt.imsave("{}.png".format(true_class[cls_ex[0]]), x_test[cls_ex[0]].squeeze())
+            plt.imsave("MNIST_{}.png".format(true_class[cls_ex[0]]), x_test[cls_ex[0]].squeeze())
 
 
 def plot():
-    import pdb
-    pdb.set_trace()
+    mn = min(np.min(pre_learn_weights), np.min(post_learn_weights))
+    mx = max(np.max(pre_learn_weights), np.max(post_learn_weights))
+    plt.hist(pre_learn_weights, label='Pre Training', range=(mn, mx), bins=1000)
+    plt.hist(post_learn_weights, label='Post Training', range=(mn, mx), bins=1000)
+    plt.legend()
+    plt.savefig('MNIST_plt.png')
 
 
 if __name__ == '__main__':
